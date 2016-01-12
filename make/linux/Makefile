@@ -9,9 +9,10 @@
 # 'make DEBUG=yes'.
 #
 
+SYS=$(shell uname -s)
 # Paths
 # BeOS wants the libs and headers in /boot/home/config
-ifeq (BeOS,$(shell uname -s))
+ifeq (BeOS,$(SYS))
 prefix=/boot/home/config
 else
 prefix=/usr/local
@@ -25,7 +26,7 @@ CXX = $(CROSS)g++
 LD = $(CXX)
 AR = $(CROSS)ar
 RANLIB = $(CROSS)ranlib
-INSTALL = install
+INSTALL ?= install
 INSTALL_OPTS = -m 644
 INSTALL_OPTS_LIB = -m 644
 INSTALL_DIR_OPTS = -m 755
@@ -33,9 +34,14 @@ INSTALL_DIR_OPTS = -m 755
 CWD=$(shell pwd)
 
 # Options
-LIBEBML_INCLUDE_DIR=$(CWD)/../../../libebml
-LIBEBML_LIB_DIR=$(CWD)/../../../libebml/make/linux
+LIBEBML_INCLUDE_DIR?=$(CWD)/../../../libebml
+LIBEBML_LIB_DIR?=$(CWD)/../../../libebml/make/linux
 EXTENSION=.cpp
+ifeq (OS/2, $(SYS))
+EXE=.exe
+else
+EXE=
+endif
 
 ifeq (yes,$(DEBUG))
 DEBUGFLAGS=-g -DDEBUG
@@ -53,8 +59,13 @@ MUX_LIBS=-lmatroska -lebml $(LIBICONV)
 
 # Names
 LIBRARY=libmatroska.a
+ifneq (OS/2,$(SYS))
 LIBRARY_SO=libmatroska.so
 LIBRARY_SO_VER=libmatroska.so.6
+else
+LIBRARY_SO=matroska.dll
+LIBRARY_SO_IMP=libmatroska_dll.a
+endif
 
 # source-files
 sources:=$(wildcard ${SRC_DIR}*$(EXTENSION))
@@ -73,7 +84,7 @@ COMPILEFLAGS=$(DEBUGFLAGS) $(CXXFLAGS) $(CPPFLAGS) $(WARNINGFLAGS) $(INCLUDE)
 LINKFLAGS=-L. -L$(LIBEBML_LIB_DIR) $(LDFLAGS)
 DEPENDFLAGS  = $(CXXFLAGS) $(INCLUDE)
 
-ifeq (Darwin,$(shell uname -s))
+ifeq (Darwin,$(SYS))
 all: staticlib
 else
 all: staticlib sharedlib
@@ -87,31 +98,45 @@ lib:
 	@echo "Use the 'staticlib', 'sharedlib' or 'all' targets."
 	@false
 
+ifneq (OS/2,$(SYS))
+PIC=-fPIC
+else
+PIC=
+endif
+
 # Build rules
 %.o: %$(EXTENSION)
 	$(CXX) -c $(COMPILEFLAGS) -o $@ $<
 
 %.lo: %$(EXTENSION)
-	$(CXX) -c $(COMPILEFLAGS) -fPIC -o $@ $<
+	$(CXX) -c $(COMPILEFLAGS) $(PIC) -o $@ $<
 
 $(LIBRARY): $(objects)
 	$(AR) rcvu $@ $(objects)
 	$(RANLIB) $@
 
 $(LIBRARY_SO): $(objects_so)
+ifneq (OS/2, $(SYS))
 	$(CXX) -shared -Wl,-soname,$(LIBRARY_SO_VER) -o $(LIBRARY_SO_VER) $(objects_so) -lebml
 	rm -f $(LIBRARY_SO)
 	ln -s $(LIBRARY_SO_VER) $(LIBRARY_SO)
+else
+	kdllar -cc $(CXX) -nokeepdef -implib $(LIBRARY_SO_IMP) -objext .lo -o $@  $(objects_so) -lebml
+endif
 
 clean:	cleantest
 	rm -f $(objects) $(objects_so)
 	rm -f $(LIBRARY)
 	rm -f $(LIBRARY_SO)
+ifneq (OS/2, $(SYS))
 	rm -f $(LIBRARY_SO_VER)
+else
+	rm -f $(LIBRARY_SO_IMP)
+endif
 	rm -f CORE
 
 cleantest:
-	rm -f test6 test8 test9 test6.o test8.o test9.o
+	rm -f test6$(EXE) test8$(EXE) test9$(EXE) test6.o test8.o test9.o
 
 distclean dist-clean: clean
 	rm -f .depend
@@ -126,27 +151,27 @@ depend:
 		$(CXX) $(DEPENDFLAGS) -MM -MT $$o $$i >> .depend ; \
 	done
 
-test: test6 test9
+test: test6$(EXE) test9$(EXE)
 
-test6:	test6.o $(LIBRARY) $(LIBRARY_SO)
+test6$(EXE):	test6.o $(LIBRARY) $(LIBRARY_SO)
 	$(LD) -o $@ $(LINKFLAGS) $< $(MUX_LIBS)
 
 test6.o: $(MUX_SRC_DIR)test6.cpp
 	$(CXX) -c $(COMPILEFLAGS) -o $@ $<
 
-test8:	test8.o $(LIBRARY) $(LIBRARY_SO)
+test8$(EXE):	test8.o $(LIBRARY) $(LIBRARY_SO)
 	$(LD) -o $@ $(LINKFLAGS) $< $(MUX_LIBS)
 
 test8.o: $(MUX_SRC_DIR)test8.cpp
 	$(CXX) -c $(COMPILEFLAGS) -o $@ $<
 
-test9:	test9.o $(LIBRARY) $(LIBRARY_SO)
+test9$(EXE):	test9.o $(LIBRARY) $(LIBRARY_SO)
 	$(LD) -o $@ $(LINKFLAGS) $< $(MUX_LIBS)
 
 test9.o: $(TAG_SRC_DIR)test9.cpp
 	$(CXX) -c $(COMPILEFLAGS) -o $@ $<
 
-ifeq (Darwin,$(shell uname -s))
+ifeq (Darwin,$(SYS))
 install: install_staticlib install_headers
 else
 install: install_staticlib install_sharedlib install_headers
@@ -168,8 +193,13 @@ install_staticlib: $(LIBRARY)
 
 install_sharedlib: $(LIBRARY_SO)
 	$(INSTALL) $(INSTALL_DIR_OPTS) -d $(libdir)
+ifneq (OS/2, $(SYS))
 	$(INSTALL) $(INSTALL_OPTS_LIB) $(LIBRARY_SO_VER) $(libdir)
 	ln -fs $(LIBRARY_SO_VER) $(libdir)/$(LIBRARY_SO)
+else
+	$(INSTALL) $(INSTALL_OPTS_LIB) $(LIBRARY_SO) $(libdir)
+	$(INSTALL) $(INSTALL_OPTS_LIB) $(LIBRARY_SO_IMP) $(libdir)
+endif
 
 ifneq ($(wildcard .depend),)
 include .depend
