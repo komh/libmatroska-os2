@@ -11,17 +11,17 @@
 ** modify it under the terms of the GNU Lesser General Public
 ** License as published by the Free Software Foundation; either
 ** version 2.1 of the License, or (at your option) any later version.
-** 
+**
 ** This library is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ** Lesser General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU Lesser General Public
 ** License along with this library; if not, write to the Free Software
-** Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 **
-** See http://www.matroska.org/license/lgpl/ for LGPL licensing information.**
+** See http://www.gnu.org/licenses/lgpl-2.1.html for LGPL licensing information.**
 ** Contact license@matroska.org if any conditions of this licensing are
 ** not clear to you.
 **
@@ -69,7 +69,7 @@ typedef enum track_type {
     \note this should be used by the libmatroska internals
 */
 typedef enum {
-	error_null_pointer  ///< NULL pointer where something else is expected
+  error_null_pointer  ///< NULL pointer where something else is expected
 } matroska_error_t;
 
 typedef void *matroska_stream;

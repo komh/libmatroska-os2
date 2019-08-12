@@ -1,28 +1,29 @@
 /**********************************************************************
 **  DO NOT EDIT, GENERATED WITH DATA2LIB
-** 
+**  https://github.com/Matroska-Org/foundation-source/tree/master/spectool
+**
 **  libmatroska : parse Matroska files, see http://www.matroska.org/
-** 
-**  Copyright (c) 2002-2010, Matroska (non-profit organisation)
+**
+**  Copyright (c) 2002-2017, Matroska (non-profit organisation)
 **  All rights reserved.
-** 
+**
 ** This file is part of libmatroska.
 **
 ** This library is free software; you can redistribute it and/or
 ** modify it under the terms of the GNU Lesser General Public
 ** License as published by the Free Software Foundation; either
 ** version 2.1 of the License, or (at your option) any later version.
-** 
+**
 ** This library is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ** Lesser General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU Lesser General Public
 ** License along with this library; if not, write to the Free Software
-** Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 **
-** See http://www.matroska.org/license/lgpl/ for LGPL licensing information.**
+** See http://www.gnu.org/licenses/lgpl-2.1.html for LGPL licensing information.**
 ** Contact license@matroska.org if any conditions of this licensing are
 ** not clear to you.
 **
@@ -49,7 +50,7 @@ START_LIBMATROSKA_NAMESPACE
 
 DECLARE_MKX_BINARY (KaxSeekID)
 public:
-	virtual bool ValidateSize() const {return IsFiniteSize() && GetSize() <= 4;}
+  virtual bool ValidateSize() const {return IsFiniteSize() && GetSize() <= 4;}
 };
 
 DECLARE_MKX_UINTEGER(KaxSeekPosition)
@@ -62,10 +63,10 @@ DECLARE_MKX_MASTER(KaxInfo)
 DECLARE_MKX_BINARY (KaxSegmentUID)
 #if defined(HAVE_EBML2) || defined(HAS_EBML2)
 public:
-	KaxSegmentUID(EBML_DEF_CONS EBML_DEF_SEP EBML_EXTRA_PARAM);
+  KaxSegmentUID(EBML_DEF_CONS EBML_DEF_SEP EBML_EXTRA_PARAM);
 #endif
 public:
-	virtual bool ValidateSize() const {return IsFiniteSize() && GetSize() == 16;}
+  virtual bool ValidateSize() const {return IsFiniteSize() && GetSize() == 16;}
 };
 
 DECLARE_MKX_UNISTRING(KaxSegmentFilename)
@@ -79,7 +80,7 @@ DECLARE_MKX_UNISTRING(KaxNextFilename)
 
 DECLARE_MKX_BINARY (KaxSegmentFamily)
 public:
-	virtual bool ValidateSize() const {return IsFiniteSize() && GetSize() == 16;}
+  virtual bool ValidateSize() const {return IsFiniteSize() && GetSize() == 16;}
 };
 
 DECLARE_MKX_MASTER(KaxChapterTranslate)
@@ -152,10 +153,13 @@ DECLARE_MKX_UINTEGER(KaxReferencePriority)
 #if MATROSKA_VERSION >= 2
 DECLARE_MKX_SINTEGER(KaxReferenceVirtual)
 public:
-	filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
+  filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
 };
 
 DECLARE_MKX_BINARY (KaxCodecState)
+};
+
+DECLARE_MKX_SINTEGER(KaxDiscardPadding)
 };
 #endif
 
@@ -173,22 +177,22 @@ DECLARE_MKX_UINTEGER(KaxSliceLaceNumber)
 #if MATROSKA_VERSION >= 2
 DECLARE_MKX_UINTEGER(KaxSliceFrameNumber)
 public:
-	filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
+  filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
 };
 
 DECLARE_MKX_UINTEGER(KaxSliceBlockAddID)
 public:
-	filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
+  filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
 };
 
 DECLARE_MKX_UINTEGER(KaxSliceDelay)
 public:
-	filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
+  filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
 };
 
 DECLARE_MKX_UINTEGER(KaxSliceDuration)
 public:
-	filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
+  filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
 };
 
 DECLARE_MKX_MASTER(KaxReferenceFrame)
@@ -203,8 +207,9 @@ DECLARE_MKX_UINTEGER(KaxReferenceTimeCode)
 
 DECLARE_MKX_BINARY (KaxEncryptedBlock)
 public:
-	filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
+  filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
 };
+
 #endif
 
 DECLARE_MKX_MASTER(KaxTracks)
@@ -250,13 +255,13 @@ DECLARE_MKX_UINTEGER(KaxTrackDefaultDecodedFieldDuration)
 
 DECLARE_MKX_FLOAT(KaxTrackTimecodeScale)
 public:
-	filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
+  filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
 };
 
 #if MATROSKA_VERSION >= 2
 DECLARE_MKX_SINTEGER(KaxTrackOffset)
 public:
-	filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
+  filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
 };
 #endif
 
@@ -268,6 +273,11 @@ DECLARE_MKX_UNISTRING(KaxTrackName)
 
 DECLARE_MKX_STRING(KaxTrackLanguage)
 };
+
+#if MATROSKA_VERSION >= 2
+DECLARE_MKX_STRING(KaxLanguageIETF)
+};
+#endif
 
 DECLARE_MKX_STRING(KaxCodecID)
 };
@@ -284,17 +294,17 @@ DECLARE_MKX_UINTEGER(KaxTrackAttachmentLink)
 #if MATROSKA_VERSION >= 2
 DECLARE_MKX_UNISTRING(KaxCodecSettings)
 public:
-	filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
+  filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
 };
 
 DECLARE_MKX_STRING(KaxCodecInfoURL)
 public:
-	filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
+  filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
 };
 
 DECLARE_MKX_STRING(KaxCodecDownloadURL)
 public:
-	filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
+  filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
 };
 
 DECLARE_MKX_UINTEGER(KaxCodecDecodeAll)
@@ -303,6 +313,14 @@ DECLARE_MKX_UINTEGER(KaxCodecDecodeAll)
 
 DECLARE_MKX_UINTEGER(KaxTrackOverlay)
 };
+
+#if MATROSKA_VERSION >= 2
+DECLARE_MKX_UINTEGER(KaxCodecDelay)
+};
+
+DECLARE_MKX_UINTEGER(KaxSeekPreRoll)
+};
+#endif
 
 DECLARE_MKX_MASTER(KaxTrackTranslate)
 };
@@ -325,6 +343,9 @@ DECLARE_MKX_MASTER(KaxTrackVideo)
 DECLARE_MKX_UINTEGER(KaxVideoFlagInterlaced)
 };
 
+DECLARE_MKX_UINTEGER(KaxVideoFieldOrder)
+};
+
 DECLARE_MKX_UINTEGER(KaxVideoStereoMode)
 };
 
@@ -333,7 +354,7 @@ DECLARE_MKX_UINTEGER(KaxVideoAlphaMode)
 
 DECLARE_MKX_UINTEGER(KaxOldStereoMode)
 public:
-	filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
+  filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
 };
 #endif
 
@@ -369,19 +390,116 @@ DECLARE_MKX_UINTEGER(KaxVideoAspectRatio)
 
 DECLARE_MKX_BINARY (KaxVideoColourSpace)
 public:
-	virtual bool ValidateSize() const {return IsFiniteSize() && GetSize() == 4;}
+  virtual bool ValidateSize() const {return IsFiniteSize() && GetSize() == 4;}
 };
 
 #if MATROSKA_VERSION >= 2
 DECLARE_MKX_FLOAT(KaxVideoGamma)
 public:
-	filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
+  filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
 };
 
 DECLARE_MKX_FLOAT(KaxVideoFrameRate)
 public:
-	filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
+  filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
 };
+
+DECLARE_MKX_MASTER(KaxVideoColour)
+};
+
+
+DECLARE_MKX_UINTEGER(KaxVideoColourMatrix)
+};
+
+DECLARE_MKX_UINTEGER(KaxVideoBitsPerChannel)
+};
+
+DECLARE_MKX_UINTEGER(KaxVideoChromaSubsampHorz)
+};
+
+DECLARE_MKX_UINTEGER(KaxVideoChromaSubsampVert)
+};
+
+DECLARE_MKX_UINTEGER(KaxVideoCbSubsampHorz)
+};
+
+DECLARE_MKX_UINTEGER(KaxVideoCbSubsampVert)
+};
+
+DECLARE_MKX_UINTEGER(KaxVideoChromaSitHorz)
+};
+
+DECLARE_MKX_UINTEGER(KaxVideoChromaSitVert)
+};
+
+DECLARE_MKX_UINTEGER(KaxVideoColourRange)
+};
+
+DECLARE_MKX_UINTEGER(KaxVideoColourTransferCharacter)
+};
+
+DECLARE_MKX_UINTEGER(KaxVideoColourPrimaries)
+};
+
+DECLARE_MKX_UINTEGER(KaxVideoColourMaxCLL)
+};
+
+DECLARE_MKX_UINTEGER(KaxVideoColourMaxFALL)
+};
+
+DECLARE_MKX_MASTER(KaxVideoColourMasterMeta)
+};
+
+
+DECLARE_MKX_FLOAT(KaxVideoRChromaX)
+};
+
+DECLARE_MKX_FLOAT(KaxVideoRChromaY)
+};
+
+DECLARE_MKX_FLOAT(KaxVideoGChromaX)
+};
+
+DECLARE_MKX_FLOAT(KaxVideoGChromaY)
+};
+
+DECLARE_MKX_FLOAT(KaxVideoBChromaX)
+};
+
+DECLARE_MKX_FLOAT(KaxVideoBChromaY)
+};
+
+DECLARE_MKX_FLOAT(KaxVideoWhitePointChromaX)
+};
+
+DECLARE_MKX_FLOAT(KaxVideoWhitePointChromaY)
+};
+
+DECLARE_MKX_FLOAT(KaxVideoLuminanceMax)
+};
+
+DECLARE_MKX_FLOAT(KaxVideoLuminanceMin)
+};
+
+DECLARE_MKX_MASTER(KaxVideoProjection)
+};
+
+
+DECLARE_MKX_UINTEGER(KaxVideoProjectionType)
+};
+
+DECLARE_MKX_BINARY (KaxVideoProjectionPrivate)
+};
+
+DECLARE_MKX_FLOAT(KaxVideoProjectionPoseYaw)
+};
+
+DECLARE_MKX_FLOAT(KaxVideoProjectionPosePitch)
+};
+
+DECLARE_MKX_FLOAT(KaxVideoProjectionPoseRoll)
+};
+
 #endif
 
 DECLARE_MKX_MASTER(KaxTrackAudio)
@@ -400,7 +518,7 @@ DECLARE_MKX_UINTEGER(KaxAudioChannels)
 #if MATROSKA_VERSION >= 2
 DECLARE_MKX_BINARY (KaxAudioPosition)
 public:
-	filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
+  filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
 };
 #endif
 
@@ -438,7 +556,7 @@ DECLARE_MKX_UINTEGER(KaxTrickTrackUID)
 
 DECLARE_MKX_BINARY (KaxTrickTrackSegmentUID)
 public:
-	virtual bool ValidateSize() const {return IsFiniteSize() && GetSize() == 16;}
+  virtual bool ValidateSize() const {return IsFiniteSize() && GetSize() == 16;}
 };
 
 DECLARE_MKX_UINTEGER(KaxTrickTrackFlag)
@@ -449,7 +567,7 @@ DECLARE_MKX_UINTEGER(KaxTrickMasterTrackUID)
 
 DECLARE_MKX_BINARY (KaxTrickMasterTrackSegmentUID)
 public:
-	virtual bool ValidateSize() const {return IsFiniteSize() && GetSize() == 16;}
+  virtual bool ValidateSize() const {return IsFiniteSize() && GetSize() == 16;}
 };
 #endif
 
@@ -531,18 +649,19 @@ DECLARE_MKX_UINTEGER(KaxCueRefTime)
 
 DECLARE_MKX_UINTEGER(KaxCueRefCluster)
 public:
-	filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
+  filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
 };
 
 DECLARE_MKX_UINTEGER(KaxCueRefNumber)
 public:
-	filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
+  filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
 };
 
 DECLARE_MKX_UINTEGER(KaxCueRefCodecState)
 public:
-	filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
+  filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
 };
+
 #endif
 
 DECLARE_MKX_MASTER(KaxAttachments)
@@ -571,7 +690,7 @@ DECLARE_MKX_UINTEGER(KaxFileUID)
 #if MATROSKA_VERSION >= 2
 DECLARE_MKX_BINARY (KaxFileReferral)
 public:
-	filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
+  filepos_t RenderData(IOCallback & output, bool bForceRender, bool bSaveDefault);
 };
 
 DECLARE_MKX_UINTEGER(KaxFileUsedStartTime)
@@ -579,6 +698,7 @@ DECLARE_MKX_UINTEGER(KaxFileUsedStartTime)
 
 DECLARE_MKX_UINTEGER(KaxFileUsedEndTime)
 };
+
 #endif
 
 DECLARE_MKX_MASTER(KaxChapters)
@@ -627,7 +747,7 @@ DECLARE_MKX_UINTEGER(KaxChapterFlagEnabled)
 
 DECLARE_MKX_BINARY (KaxChapterSegmentUID)
 public:
-	virtual bool ValidateSize() const {return IsFiniteSize() && GetSize() == 16;}
+  virtual bool ValidateSize() const {return IsFiniteSize() && GetSize() == 16;}
 };
 
 DECLARE_MKX_UINTEGER(KaxChapterSegmentEditionUID)
@@ -652,6 +772,11 @@ DECLARE_MKX_UNISTRING(KaxChapterString)
 
 DECLARE_MKX_STRING(KaxChapterLanguage)
 };
+
+#if MATROSKA_VERSION >= 2
+DECLARE_MKX_STRING(KaxChapLanguageIETF)
+};
+#endif
 
 DECLARE_MKX_STRING(KaxChapterCountry)
 };
@@ -715,6 +840,11 @@ DECLARE_MKX_UNISTRING(KaxTagName)
 
 DECLARE_MKX_STRING(KaxTagLangue)
 };
+
+#if MATROSKA_VERSION >= 2
+DECLARE_MKX_STRING(KaxTagLanguageIETF)
+};
+#endif
 
 DECLARE_MKX_UINTEGER(KaxTagDefault)
 };

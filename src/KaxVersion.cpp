@@ -19,25 +19,29 @@
 **
 ** You should have received a copy of the GNU Lesser General Public
 ** License along with this library; if not, write to the Free Software
-** Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 **
-** See http://www.matroska.org/license/lgpl/ for LGPL licensing information.**
+** See http://www.gnu.org/licenses/lgpl-2.1.html for LGPL licensing information.**
 ** Contact license@matroska.org if any conditions of this licensing are
 ** not clear to you.
 **
 **********************************************************************/
 
 /*!
-	\file
-	\version \$Id: KaxVersion.cpp 640 2004-07-09 21:05:36Z mosu $
-	\author Steve Lhomme     <robux4 @ users.sf.net>
+  \file
+  \version \$Id: KaxVersion.cpp 640 2004-07-09 21:05:36Z mosu $
+  \author Steve Lhomme     <robux4 @ users.sf.net>
 */
 
 #include "matroska/KaxVersion.h"
 
 START_LIBMATROSKA_NAMESPACE
 
-const std::string KaxCodeVersion = "1.4.0";
-const std::string KaxCodeDate    = __TIMESTAMP__;
+const std::string KaxCodeVersion = "1.5.2";
+
+// Up to version 1.4.4 this library exported a build date string. As
+// this made the build non-reproducible, replace it by a placeholder to
+// remain binary compatible.
+const std::string KaxCodeDate = "Unknown";
 
 END_LIBMATROSKA_NAMESPACE
