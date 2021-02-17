@@ -1,3 +1,66 @@
+2020-08-02  Moritz Bunkus  <mo@bunkus.online>
+
+        * Released v1.6.2.
+
+        * In release 1.6.1 the version number in CMakeLists.txt wasn't
+        updated, affecting the installed cmake and pkgconfig files. The
+        version number has been bumped to 1.6.2 in all relevant files now.
+
+        * Released v1.6.1.
+
+        * "KaxBlockAddIDValue" class: this class is no longer marked as
+        "mandatory" in order to coincide with the latest specification.
+
+2020-06-27  Moritz Bunkus  <mo@bunkus.online>
+
+        * Released v1.6.0.
+
+        * libEBML v1.4.0 is now required.
+
+        * Due to breaking ABI the soname version has been bumped to 7.0.0.
+
+        * Default symbol visibility is now "hidden", reducing binary size.
+
+        * Converted some things pointed out by cppcheck & clang-tidy to
+        C++11.
+
+        * Fixed a lot of issues pointed out by clang-tidy.
+
+        * A C++11 compliant compiler is now required. Several of its
+        features are now used in the source.
+
+        * "KaxCueData" class: added "PositionSet" overrides taking
+        "KaxSimpleBlock" arguments.
+
+        * "KaxSeekHead" class: the "IndexThis" function now returns a
+        pointer to the newly allocated "KaxSeek" instance.
+
+        * "KaxBlockData" class: the "SetReferencedTimecode" function is
+        now public.
+
+        * Fixed classes for updates in the current specification:
+        KaxTrackTimecodeScale (can be written again), TimeSlice,
+        SliceLaceNumber, TrackAttachmentLink (these cannot be written
+        anymore), KaxContentEncAlgo (it's mandatory), KaxChapLanguageIETF
+        (can occur multiple times), KaxFileUsedStartTime,
+        KaxFileUsedEndTime (DivX-related elements, cannot be written
+        anymore)
+
+        * Added classes for new elements from the current specification:
+        KaxBlockAdditionMapping, KaxBlockAddIDValue, KaxBlockAddIDName,
+        KaxBlockAddIDType, KaxBlockAddIDExtraData,
+        KaxContentEncAESSettings, KaxContentEncAESSettings.
+
+        * The MATROSKA_VERSION pre-processor definition has been
+        removed. You used to be able toe restrict compiling with only
+        those classes for elements contained in Matroska v1, but that
+        hasn't worked since 2010, so… yeah.
+
+2020-03-16  Lars Benner  <benner@simi.com>
+
+        * Build system: more fixes for building libMatroska as a DLL on
+        Windows wrt. symbol visibility.
+
 2019-05-27  Moritz Bunkus  <moritz@bunkus.org>
 
         * Released v1.5.2.
